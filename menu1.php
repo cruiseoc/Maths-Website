@@ -7,20 +7,14 @@
 
 <h1> Menu </h1>
 
+<a href="login.php">Login</a><br>                           <!-- Creates link called login, that branches to the login page when clicked -->
+<a href="addusers.php">Create an account</a><br>            <!-- Creates link called Create an account, that branches to the addusers page when clicked -->
 
-<!-- Creates button which allows user to create an account -->
 
-    <form action="users.php" method="get">         <!--- Branches to users.php page -->
-        <input type="submit" value="Create an account">    
-    <form>
-
-<!-- Creates button which allows user to log in -->
-
-    <form action="login.php" method="get">     <!--- Branches to login.php page -->
-        <input type="submit" value="Login">
-    <form>
+<form>
 
 <body>
 
 
 </html>
+
