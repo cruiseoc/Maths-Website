@@ -5,6 +5,7 @@
 
 <title> Sign Up </title>
 </head>
+
 <body>
             <h1>Sign up</h1><br>
             <p>Please enter your credentials to sign up</p>
@@ -19,6 +20,7 @@
             <input type="radio" name="role" value="2" checked> Admin<br>
             <input type="text" placeholder="enter class code" name="class"><br>
             <input type="submit" value="Sign Up">
+
 
 
         </form>

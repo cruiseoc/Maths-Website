@@ -1,5 +1,17 @@
 <?php
+
 include_once("connection.php");
+
+// creates a table called shop
+
+$stmt = $conn->prepare("DROP TABLE IF EXISTS Shop;
+CREATE TABLE Shop
+(BadgeID int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+BadgeName VARCHAR(20) NOT NULL,
+Price INT(5) NOT NULL,
+Rarity VARCHAR(15) NOT NULL)");
+$stmt->execute();
+$stmt->closeCursor();
 
 // creates table for users
 
@@ -9,8 +21,18 @@ CREATE TABLE Users
 Password VARCHAR(200) NOT NULL,
 Username VARCHAR(25) NOT NULL,
 Role TINYINT(1),
-Class VARCHAR(6) NOT NULL, 
+Class INT(5) NOT NULL,
 Coins INT(20) NOT NULL)");
+$stmt->execute();
+$stmt->closeCursor();
+
+// creates table called class
+
+$stmt = $conn->prepare("DROP TABLE IF EXISTS Class;
+CREATE TABLE Class
+(Class int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+Username VARCHAR(25) NOT NULL,
+SubjectName VARCHAR(20) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
 
@@ -19,23 +41,12 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("DROP TABLE IF EXISTS Assignments;
 CREATE TABLE Assignments
 (AssignmentID int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-UserID INT(5) NOT NULL,
 AssignmentName VARCHAR(25) NOT NULL,
 Class VARCHAR(6) NOT NULL,
 Date DATE NOT NULL,
+Time TIME NOT NULL,
 Instructions VARCHAR(200) NOT NULL,
-Complete INT(1) NOT NULL,
-QuestionOne VARCHAR (150) NOT NULL,
-QuestionTwo VARCHAR (150) NOT NULL,
-QuestionThree VARCHAR (150) NOT NULL,
-QuestionFour VARCHAR (150) NOT NULL,
-QuestionFive VARCHAR (150) NOT NULL,
-QuestionSix VARCHAR (150) NOT NULL,
-QuestionSeven VARCHAR (150) NOT NULL,
-QuestionEight VARCHAR (150) NOT NULL,
-QuestionNine VARCHAR (150) NOT NULL,
-QuestionTen VARCHAR (150) NOT NULL,
-Time TIME)");
+Complete INT(1) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
 
@@ -46,7 +57,8 @@ $stmt = $conn->prepare("DROP TABLE IF EXISTS Result;
 CREATE TABLE Result
 (ResultsID int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 AssignmentID INT(5) NOT NULL,
-Results INT(5) NOT NULL,
+UserID INT(5) NOT NULL,
+Result INT(5) NOT NULL,
 Feedback VARCHAR(200) NOT NULL,
 Class VARCHAR(6) NOT NULL, 
 CoinsGained INT(2) NOT NULL)");
@@ -58,7 +70,7 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("DROP TABLE IF EXISTS Locker;
 CREATE TABLE Locker
 (LockerID int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-CarID INT(5) NOT NULL,
+BadgeID INT(5) NOT NULL,
 UserID INT(5) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
@@ -87,7 +99,5 @@ Date DATE NOT NULL,
 UserID INT(5) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
-
-
 ?>
 
