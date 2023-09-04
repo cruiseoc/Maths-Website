@@ -27,7 +27,7 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
+        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
         <li><a class="dropdown-item" href="assignments.php">Add assignments</a></li>
   </ul>
 </li>
@@ -36,7 +36,7 @@
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="createclass.php">Create class</a></li>
-    <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
+    <li><a class="dropdown-item" href="teacherviewclasses.php">View classes</a></li>
   </ul>
 </li>
 
@@ -50,9 +50,40 @@
   </div>
 </nav>
 
-<h1> Teacher home</h1>
+<h1> Yours assignments...</h1>
 
 <body>
 
 
 </html>
+
+<?php
+
+session_start();
+
+include_once('connection.php');
+
+$username = $_SESSION["username"];
+
+$stmt = $conn->prepare("SELECT * FROM class WHERE Username = :Username");
+
+$stmt->bindParam(':Username', $username);
+$stmt->execute();  
+
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$class = $row["Class"];
+
+
+$stmt = $conn->prepare("SELECT * FROM assignments WHERE Class = :Class");
+
+$stmt->bindParam(':Class', $row['Class']);
+$stmt->execute();  
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+{
+echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
+
+}
+
+
+?>

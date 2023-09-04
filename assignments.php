@@ -26,7 +26,7 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
+        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
         <li><a class="dropdown-item" href="addassignments.php">Add assignments</a></li>
   </ul>
 </li>

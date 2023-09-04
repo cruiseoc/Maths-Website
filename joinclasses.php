@@ -1,7 +1,10 @@
+<!DOCTYPE html>
+<html>
 
+<head>
 <html>
 <head>
-    <title> Menu </title>
+    <title> Join Class </title>
 
     <!-- Latest compiled and minified CSS --> 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,16 +30,15 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
-        <li><a class="dropdown-item" href="assignments.php">Add assignments</a></li>
+        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
   </ul>
 </li>
         
     <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="createclass.php">Create class</a></li>
-    <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
+    <li><a class="dropdown-item" href="joinclasses.php">Join class</a></li>
+    <li><a class="dropdown-item" href="studentviewclasses.php">View classes</a></li>
   </ul>
 </li>
 
@@ -50,9 +52,35 @@
   </div>
 </nav>
 
-<h1> Teacher home</h1>
+<h1> Join Class</h1>
 
 <body>
 
 
+</html>
+
+
+            <p>Please enter the class code</p>
+
+        <!-- takes in class code -->
+       
+        <form action="addtoclass.php" method="POST">
+            <input type="text" placeholder="enter class code"  name="class">
+            <input type="submit" value="Join Class">
+
+
+
+        </form>
+
+</body>
+
+<?php
+
+include_once('connection.php');
+$stmt = $conn->prepare("SELECT * FROM userinclass");
+$stmt->execute();
+
+
+?>   
+</body>
 </html>

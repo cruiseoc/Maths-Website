@@ -27,15 +27,14 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
-        <li><a class="dropdown-item" href="assignments.php">Add assignments</a></li>
+        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
   </ul>
 </li>
         
     <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="createclass.php">Create class</a></li>
+    <li><a class="dropdown-item" href="joinclasses.php">Join class</a></li>
     <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
   </ul>
 </li>
@@ -50,9 +49,59 @@
   </div>
 </nav>
 
-<h1> Teacher home</h1>
+<h1>Your assignments:</h1>
 
 <body>
 
 
 </html>
+
+
+<?php
+
+session_start();
+
+include_once('connection.php');
+
+$user = $_SESSION["loggedin"];
+
+$stmt = $conn->prepare("SELECT * FROM userinclass WHERE UserID = :UserID");
+
+$stmt->bindParam(':UserID', $user);
+$stmt->execute();  
+
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$class = $row["Class"];
+
+
+$stmt = $conn->prepare("SELECT * FROM assignments WHERE Class = :Class");
+
+$stmt->bindParam(':Class', $row['Class']);
+$stmt->execute();
+
+// prints each assignment
+
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+{
+$assignment = $row["AssignmentID"];
+
+$stmt = $conn->prepare("SELECT * FROM assignments WHERE AssignmentID = :AssignmentID");
+
+$stmt->bindParam(':AssignmentID', $assignment);
+$stmt->execute();
+
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$complete = $row["Complete"];
+echo $complete;
+
+
+if($complete=="0"){
+    echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
+
+    // uses a GET request to send the assignmentID to the handin.php page
+    echo '<a href="handin.php? assignment='.$row["AssignmentID"].'">Hand In<br><br></a>'; 
+}
+}
+
+?>

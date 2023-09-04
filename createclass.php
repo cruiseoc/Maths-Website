@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-
+<title> Menu </title>
 
     <!-- Latest compiled and minified CSS --> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -28,8 +27,8 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
-        <li><a class="dropdown-item" href="addassignments.php">Add assignments</a></li>
+        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
+        <li><a class="dropdown-item" href="assignments.php">Add assignments</a></li>
   </ul>
 </li>
         
@@ -37,7 +36,7 @@
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="createclass.php">Create class</a></li>
-    <li><a class="dropdown-item" href="viewclasses.php">View class</a></li>
+    <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
   </ul>
 </li>
 
@@ -50,21 +49,17 @@
     </div>
   </div>
 </nav>
-<br>
 
-<title> Create class </title>
-</head>
+<h1> Create class</h1>
+
 <body>
-            <h1>Create class</h1><br>
 
         <!-- takes in user's sign up details -->
        
         <form action="addclass.php" method="POST">
             <input type="text" placeholder="subject name"  name="subjectname">
-            <input type="text" placeholder="username"  name="username">
-            <input type="submit" value="Create class">
+            <input type="submit" value="Add class">
 
-           
 
 
         </form>

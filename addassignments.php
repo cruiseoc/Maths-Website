@@ -3,7 +3,7 @@ try{
     include_once('connection.php');
     //print_r($_POST);
 
-   //header('Location:assignments.php');
+    header('Location:teacherviewassignments.php');
 
 
 // inserts the assignment data into the table 

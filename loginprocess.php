@@ -21,6 +21,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
     if(password_verify($attempt,$hashed)) {  // this checks the hash of the inputted password against the hash of the actual password in the database
 
         echo('login sucessful');
+        $_SESSION["loggedin"]=$row["UserID"];
+        $_SESSION["username"]=$row["Username"];
         $role = $row['Role'];
         if($role=="0"){
             header("Location:studentmenu.php");  // if role = 0 (student) branch to student home

@@ -1,7 +1,6 @@
-
 <html>
 <head>
-    <title> Menu </title>
+    <title> View classes </title>
 
     <!-- Latest compiled and minified CSS --> 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,16 +26,15 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
-        <li><a class="dropdown-item" href="assignments.php">Add assignments</a></li>
+        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
   </ul>
 </li>
         
     <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="createclass.php">Create class</a></li>
-    <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
+    <li><a class="dropdown-item" href="joinclasses.php">Join class</a></li>
+    <li><a class="dropdown-item" href="studentviewclasses.php">View classes</a></li>
   </ul>
 </li>
 
@@ -50,9 +48,49 @@
   </div>
 </nav>
 
-<h1> Teacher home</h1>
+<h1>View your classes</h1>
 
 <body>
 
 
 </html>
+
+<?php
+
+session_start();
+
+include_once('connection.php');
+
+// sets the variable username 1 to the session variable "username"
+
+$username1 = $_SESSION["username"];
+
+// selects all from userinclass where the username 1 variable is the same as the username in the table.
+
+$stmt = $conn->prepare("SELECT * FROM userinclass WHERE Username= :Username");
+
+$stmt->bindParam(':Username', $username1);
+$stmt->execute();  
+
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$class = $row["Class"];
+
+// selects from class where the class from the userinclass table is the same as the class in the class table.
+
+
+$stmt = $conn->prepare("SELECT * FROM class WHERE Class = :Class");
+
+$stmt->bindParam(':Class', $row['Class']);
+$stmt->execute();  
+
+// prints the selected row
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+{
+echo("Class: ".$row["Class"]." <br> Username: " .$row["Username"]." <br> SubjectName: ".$row["SubjectName"]."<br>");
+echo '<a href="viewmembers.php? class='.$row["Class"].'">View Members<br><br></a>'; 
+
+}
+
+
+?>

@@ -21,18 +21,18 @@ CREATE TABLE Users
 Password VARCHAR(200) NOT NULL,
 Username VARCHAR(25) NOT NULL,
 Role TINYINT(1),
-Class INT(5) NOT NULL,
 Coins INT(20) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
 
-// creates table called class
+// creates table called userinclass
 
 $stmt = $conn->prepare("DROP TABLE IF EXISTS Class;
-CREATE TABLE Class
-(Class int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Userinclass
+(Class INT(5) NOT NULL,
+SubjectName VARCHAR(20) NOT NULL,
 Username VARCHAR(25) NOT NULL,
-SubjectName VARCHAR(20) NOT NULL)");
+UserID INT(25) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
 

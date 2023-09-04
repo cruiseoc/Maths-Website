@@ -1,9 +1,13 @@
 <?php
 try{
-    include_once('connection.php');
-    print_r($_POST);
 
-    //header('Location:createclass.php');
+    include_once('connection.php');
+    session_start();   //starts session variable
+    header('Location:addteachertoclasses.php');
+
+    $username = $_SESSION["username"];    // sets the variable "username" to the session variable "username"
+    $user = $_SESSION["loggedin"];      // sets the variable "user" to the session variable "loggedin", which holds the userID
+
 
 
 // inserts the class information into the class table
@@ -11,8 +15,9 @@ try{
     array_map("htmlspecialchars", $_POST);
     $stmt = $conn->prepare("INSERT INTO class(Class,SubjectName,Username)VALUES (null,:SubjectName,:Username)");
     $stmt->bindParam(':SubjectName', $_POST["subjectname"]);
-    $stmt->bindParam(':Username', $_POST["username"]);
+    $stmt->bindParam(':Username', $username);
     $stmt->execute();
+
 
 	  }
     catch(PDOException $e)
