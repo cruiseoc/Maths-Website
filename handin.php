@@ -6,13 +6,15 @@ include_once('connection.php');
 $assignment = $_GET["assignment"];
 echo $assignment;
 
+$user = $_SESSION["loggedin"];
+echo $user;
+
 // updates complete to "1"
 
-$stmt = $conn->prepare("UPDATE assignments SET Complete='1' WHERE AssignmentID=:AssignmentID");
+$stmt = $conn->prepare("UPDATE assignmentforuser SET complete = 1 WHERE UserID =:UserID and AssignmentID =:AssignmentID ");
 $stmt->bindParam(':AssignmentID', $assignment);
+$stmt->bindParam(':UserID', $user);
 $stmt->execute();
-$stmt->closeCursor(); 
 
 $conn=null;
-header('Location:viewassignments.php');
 ?>

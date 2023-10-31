@@ -27,7 +27,7 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Assignments</a>
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
-        <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
+        <li><a class="dropdown-item" href="teacherviewassignments.php">View assignments</a></li>
         <li><a class="dropdown-item" href="assignments.php">Add assignments</a></li>
   </ul>
 </li>
@@ -39,6 +39,10 @@
     <li><a class="dropdown-item" href="teacherviewclasses.php">View classes</a></li>
   </ul>
 </li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Feedback</a>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="feedback.php">Give feedback</a></li>
 
   </ul>
 </div>
@@ -65,25 +69,25 @@ include_once('connection.php');
 
 $username = $_SESSION["username"];
 
-$stmt = $conn->prepare("SELECT * FROM class WHERE Username = :Username");
+$stmt = $conn->prepare("SELECT assignments.AssignmentID,assignments.AssignmentName,assignments.Class,assignments.Date,assignments.Time,assignments.Instructions FROM class
+INNER JOIN assignments 
+ON assignments.Class=class.Class 
+WHERE Username=:Username
+ORDER BY AssignmentID DESC;");
 
 $stmt->bindParam(':Username', $username);
-$stmt->execute();  
-
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$class = $row["Class"];
-
-
-$stmt = $conn->prepare("SELECT * FROM assignments WHERE Class = :Class");
-
-$stmt->bindParam(':Class', $row['Class']);
-$stmt->execute();  
+$stmt->execute();
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 {
-echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
+  echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
+
+  echo '<a href="delete.php?assignment='.$row["AssignmentID"].'">Delete<br></a>'; 
+  echo '<a href="editassignment.php?assignment='.$row["AssignmentID"].'">Edit<br></a>'; 
+  echo '<a href="feedback.php?assignment='.$row["AssignmentID"].'">Show student completion<br><br></a>'; 
 
 }
+
 
 
 ?>

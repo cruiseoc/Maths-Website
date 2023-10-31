@@ -23,6 +23,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
         echo('login sucessful');
         $_SESSION["loggedin"]=$row["UserID"];
         $_SESSION["username"]=$row["Username"];
+        $_SESSION["Class"]=
+        
         $role = $row['Role'];
         if($role=="0"){
             header("Location:studentmenu.php");  // if role = 0 (student) branch to student home
@@ -43,6 +45,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 }
 
 $conn=null;   // closes connection to database to prevent errors and ensure security
+
+?>
 
 ?>
 

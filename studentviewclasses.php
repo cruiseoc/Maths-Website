@@ -16,7 +16,7 @@
 
 <nav class="navbar navbar-expand-sm navbar-primary bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="teachermenu.php"><img src="https://www.mtsac.edu/asac/images/templogo_math.png" alt="Girl in a jacket"  width="70" height="55"></a>
+    <a class="navbar-brand" href="studentmenu.php"><img src="https://www.mtsac.edu/asac/images/templogo_math.png" alt="Girl in a jacket"  width="70" height="55"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -61,36 +61,37 @@ session_start();
 
 include_once('connection.php');
 
-// sets the variable username 1 to the session variable "username"
-
-$username1 = $_SESSION["username"];
-
-// selects all from userinclass where the username 1 variable is the same as the username in the table.
-
-$stmt = $conn->prepare("SELECT * FROM userinclass WHERE Username= :Username");
-
-$stmt->bindParam(':Username', $username1);
-$stmt->execute();  
-
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$class = $row["Class"];
-
-// selects from class where the class from the userinclass table is the same as the class in the class table.
+$user = $_SESSION["loggedin"];
 
 
-$stmt = $conn->prepare("SELECT * FROM class WHERE Class = :Class");
+$stmt = $conn->prepare("SELECT class.SubjectName,class.Username,class.Class FROM userinclass
+INNER JOIN class 
+ON class.Class=userinclass.Class 
+WHERE UserID=:UserID");
 
-$stmt->bindParam(':Class', $row['Class']);
-$stmt->execute();  
-
-// prints the selected row
+$stmt->bindParam(':UserID', $user);
+$stmt->execute();
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 {
-echo("Class: ".$row["Class"]." <br> Username: " .$row["Username"]." <br> SubjectName: ".$row["SubjectName"]."<br>");
-echo '<a href="viewmembers.php? class='.$row["Class"].'">View Members<br><br></a>'; 
+        echo("Subject: ".$row["SubjectName"]."<br> Class Code: ".$row["Class"]."<br> Teacher: ".$row["Username"]."<br><br>");
+        echo '<a href="viewmembers.php? class='.$row["Class"].'">View Members<br><br></a>'; 
+
 
 }
+
+
+
+
+
+
+  
+  
+
+
+
+
+
 
 
 ?>

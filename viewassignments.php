@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-sm navbar-primary bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="teachermenu.php"><img src="https://www.mtsac.edu/asac/images/templogo_math.png" alt="Girl in a jacket"  width="70" height="55"></a>
+    <a class="navbar-brand" href="studentmenu.php"><img src="https://www.mtsac.edu/asac/images/templogo_math.png" alt="Girl in a jacket"  width="70" height="55"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -35,9 +35,10 @@
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="joinclasses.php">Join class</a></li>
-    <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
+    <li><a class="dropdown-item" href="studentviewclasses.php">View classes</a></li>
   </ul>
 </li>
+
 
   </ul>
 </div>
@@ -62,46 +63,48 @@
 session_start();
 
 include_once('connection.php');
-
 $user = $_SESSION["loggedin"];
 
-$stmt = $conn->prepare("SELECT * FROM userinclass WHERE UserID = :UserID");
-
+$stmt = $conn->prepare("SELECT assignments.AssignmentID,assignments.AssignmentName,assignments.Class,assignments.Date,assignments.Time,assignments.Instructions FROM userinclass
+INNER JOIN assignments 
+ON assignments.Class=userinclass.Class 
+WHERE UserID=:UserID");
 $stmt->bindParam(':UserID', $user);
-$stmt->execute();  
-
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$class = $row["Class"];
-
-
-$stmt = $conn->prepare("SELECT * FROM assignments WHERE Class = :Class");
-
-$stmt->bindParam(':Class', $row['Class']);
 $stmt->execute();
 
-// prints each assignment
+
 
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 {
-$assignment = $row["AssignmentID"];
+  $assignment = $row["AssignmentID"];
+  $stmt1 = $conn->prepare("SELECT * FROM assignmentforuser  WHERE UserID = :UserID and AssignmentID =:AssignmentID");
+  $stmt1->bindParam(':UserID', $user);
+  $stmt1->bindParam(':AssignmentID', $assignment);
+  $stmt1->execute();
+  
+  
 
-$stmt = $conn->prepare("SELECT * FROM assignments WHERE AssignmentID = :AssignmentID");
+  while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC))
+{
 
-$stmt->bindParam(':AssignmentID', $assignment);
-$stmt->execute();
+  $complete = $row1["Complete"];
 
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$complete = $row["Complete"];
-echo $complete;
+  if($complete=="0"){
 
 
-if($complete=="0"){
-    echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
+  echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
 
-    // uses a GET request to send the assignmentID to the handin.php page
-    echo '<a href="handin.php? assignment='.$row["AssignmentID"].'">Hand In<br><br></a>'; 
+  // uses a GET request to send the assignmentID to the handin.php page
+  echo '<a href="handin.php?assignment='.$row["AssignmentID"].'">Hand In<br><br></a>'; 
+
+  }
+  
+  
+
 }
+
 }
+
 
 ?>

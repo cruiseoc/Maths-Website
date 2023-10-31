@@ -38,6 +38,10 @@
     <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
   </ul>
 </li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Feedback</a>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="feedback.php">Give feedback</a></li>
 
   </ul>
 </div>
@@ -63,16 +67,18 @@ session_start();
 
 include_once('connection.php');
 
-// creates a variable called username that is set to the session variable "username"
+// creates a variable called user that is set to the session variable "userID"
+
 
 $username = $_SESSION["username"];
 
 // selects the rows from the table "class" where the usernames are the same
 
-$stmt = $conn->prepare("SELECT * FROM class WHERE Username = :Username");
+
+$stmt = $conn->prepare("SELECT * FROM class  WHERE Username = :Username");
 
 $stmt->bindParam(':Username', $username);
-$stmt->execute();  
+$stmt->execute();
 
 // prints out the entire row for any of the selected rows
 

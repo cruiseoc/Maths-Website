@@ -3,7 +3,7 @@ try{
 
     include_once('connection.php');
     session_start();   //starts session variable
-    header('Location:addteachertoclasses.php');
+    header('Location:viewclasses.php');
 
     $username = $_SESSION["username"];    // sets the variable "username" to the session variable "username"
     $user = $_SESSION["loggedin"];      // sets the variable "user" to the session variable "loggedin", which holds the userID
