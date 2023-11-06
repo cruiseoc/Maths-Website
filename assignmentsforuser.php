@@ -19,10 +19,14 @@ $stmt1->execute();
 while ($row = $stmt1->fetch(PDO::FETCH_ASSOC))
 {
     $user = $row["UserID"];
+    $feedback = "n/a";
+    $FeedbackGiven = "0";
     echo $user;
-    $stmt2 = $conn->prepare("INSERT INTO assignmentforuser(AssignmentUser,AssignmentID,UserID) VALUES (null,:AssignmentID,:UserID)");
+    $stmt2 = $conn->prepare("INSERT INTO assignmentforuser(AssignmentUser,AssignmentID,UserID,Feedback,FeedbackGiven) VALUES (null,:AssignmentID,:UserID,:Feedback,:FeedbackGiven)");
     $stmt2->bindParam(':AssignmentID', $assignment);
     $stmt2->bindParam(':UserID', $user);
+    $stmt2->bindParam(':Feedback', $feedback);
+    $stmt2->bindParam(':FeedbackGiven', $FeedbackGiven);
     $stmt2->execute();
     
 

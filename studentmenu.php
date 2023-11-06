@@ -1,4 +1,3 @@
-
 <html>
 <head>
     <title> Menu </title>
@@ -10,7 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <head>
-
 <body>
 
 
@@ -28,6 +26,7 @@
         <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#"></a></li>
         <li><a class="dropdown-item" href="viewassignments.php">View assignments</a></li>
+        <li><a class="dropdown-item" href="pastassignments.php">View past assignments</a></li>
   </ul>
 </li>
         
@@ -38,13 +37,46 @@
     <li><a class="dropdown-item" href="studentviewclasses.php">View classes</a></li>
   </ul>
 </li>
+</li>
+        
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Shop</a>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="viewshop.php">View Shop</a></li>
+  </ul>
+</li>
+</ul>
+Coins: 
+
+<?php 
+session_start();
+include_once('connection.php');
+$user = $_SESSION["loggedin"];
+
+$stmt1 = $conn->prepare("SELECT * FROM users  WHERE UserID = :UserID");
+$stmt1->bindParam(':UserID', $user);
+$stmt1->execute();
+$row = $stmt1->fetch(PDO::FETCH_ASSOC);
+$coins = $row["Coins"];
+echo $coins;
+
+?>
+
+</div>
+        <li class="nav-item">
+        <a  <?php echo $coins ?>>
+        </li>
+
+
 
   </ul>
 </div>
         <li class="nav-item">
         <a class="nav-link" href="logout.php">Log out</a>
         </li>
+        
 </ul>
+
     </div>
   </div>
 </nav>

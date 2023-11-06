@@ -66,9 +66,6 @@ echo $coins;
         <li class="nav-item">
         <a  <?php echo $coins ?>>
         </li>
-
-
-
   </ul>
 </div>
         <li class="nav-item">
@@ -76,65 +73,18 @@ echo $coins;
         </li>
         
 </ul>
-
     </div>
   </div>
 </nav>
 
-<h1>Your assignments:</h1>
-
-<body>
-
-
-</html>
-
-
 <?php
 
+$stmt = $conn->prepare("SELECT * FROM shop");
+$stmt->execute();  
 
-include_once('connection.php');
-$user = $_SESSION["loggedin"];
-
-$stmt = $conn->prepare("SELECT assignments.AssignmentID,assignments.AssignmentName,assignments.Class,assignments.Date,assignments.Time,assignments.Instructions FROM userinclass
-INNER JOIN assignments 
-ON assignments.Class=userinclass.Class 
-WHERE UserID=:UserID");
-$stmt->bindParam(':UserID', $user);
-$stmt->execute();
-
-
-
-
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-{
-  $assignment = $row["AssignmentID"];
-  $stmt1 = $conn->prepare("SELECT * FROM assignmentforuser  WHERE UserID = :UserID and AssignmentID =:AssignmentID");
-  $stmt1->bindParam(':UserID', $user);
-  $stmt1->bindParam(':AssignmentID', $assignment);
-  $stmt1->execute();
-  
-  
-
-  while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC))
-{
-
-  $complete = $row1["Complete"];
-
-  if($complete=="0"){
-
-
-  echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
-
-  // uses a GET request to send the assignmentID to the handin.php page
-  echo '<a href="handin.php?assignment='.$row["AssignmentID"].'">Hand In<br><br></a>'; 
-
-  }
-  
-  
-
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo("Name: ".$row["BadgeName"]." <br> Price: " .$row["Price"]." <br> Rarity: ".$row["Rarity"]."<br><br>");
+    echo '<img src="' . $row["Picture"] . '">';
 }
-
-}
-
 
 ?>

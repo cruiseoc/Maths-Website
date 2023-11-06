@@ -81,60 +81,28 @@ echo $coins;
   </div>
 </nav>
 
-<h1>Your assignments:</h1>
-
-<body>
-
-
-</html>
-
-
 <?php
 
+$assignment = $_GET["assignment"];
+$user = $_GET["user"];
 
-include_once('connection.php');
-$user = $_SESSION["loggedin"];
+$stmt1 = $conn->prepare("SELECT * FROM assignmentforuser  WHERE UserID = :UserID and AssignmentID =:AssignmentID");
+$stmt1->bindParam(':UserID', $user);
+$stmt1->bindParam(':AssignmentID', $assignment);
+$stmt1->execute();
 
-$stmt = $conn->prepare("SELECT assignments.AssignmentID,assignments.AssignmentName,assignments.Class,assignments.Date,assignments.Time,assignments.Instructions FROM userinclass
-INNER JOIN assignments 
-ON assignments.Class=userinclass.Class 
-WHERE UserID=:UserID");
-$stmt->bindParam(':UserID', $user);
-$stmt->execute();
-
-
-
-
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+while ($row = $stmt1->fetch(PDO::FETCH_ASSOC))
 {
-  $assignment = $row["AssignmentID"];
-  $stmt1 = $conn->prepare("SELECT * FROM assignmentforuser  WHERE UserID = :UserID and AssignmentID =:AssignmentID");
-  $stmt1->bindParam(':UserID', $user);
-  $stmt1->bindParam(':AssignmentID', $assignment);
-  $stmt1->execute();
-  
-  
+$feedbackgiven = $row["FeedbackGiven"];
 
-  while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC))
-{
-
-  $complete = $row1["Complete"];
-
-  if($complete=="0"){
-
-
-  echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
-
-  // uses a GET request to send the assignmentID to the handin.php page
-  echo '<a href="handin.php?assignment='.$row["AssignmentID"].'">Hand In<br><br></a>'; 
-
-  }
-  
-  
-
-}
-
+if($feedbackgiven=="1"){
+    echo("Result: ".$row["Result"]." <br> Feedback: " .$row["Feedback"]." <br> Coins gained: ".$row["CoinsGained"]."<br><br>");
+}else{
+    echo("No feedback yet");
 }
 
 
-?>
+
+}
+
+  

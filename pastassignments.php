@@ -81,7 +81,7 @@ echo $coins;
   </div>
 </nav>
 
-<h1>Your assignments:</h1>
+<h1>Your past assignments:</h1>
 
 <body>
 
@@ -90,7 +90,6 @@ echo $coins;
 
 
 <?php
-
 
 include_once('connection.php');
 $user = $_SESSION["loggedin"];
@@ -120,13 +119,13 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 
   $complete = $row1["Complete"];
 
-  if($complete=="0"){
+  if($complete=="1"){
 
 
   echo("Title: ".$row["AssignmentName"]." <br> Class: " .$row["Class"]." <br> Due Date: ".$row["Date"]." <br> Due Time: " .$row["Time"]." <br> Instructions: " .$row["Instructions"]."<br><br>");
 
   // uses a GET request to send the assignmentID to the handin.php page
-  echo '<a href="handin.php?assignment='.$row["AssignmentID"].'">Hand In<br><br></a>'; 
+  echo '<a href="viewfeedback.php?assignment=' . $row["AssignmentID"] . '&user=' . $user . '">View feedback<br><br></a>'; 
 
   }
   

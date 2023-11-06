@@ -36,13 +36,10 @@
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Classes</a>
     <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="createclass.php">Create class</a></li>
-    <li><a class="dropdown-item" href="teacherviewclasses.php">View classes</a></li>
+    <li><a class="dropdown-item" href="viewclasses.php">View classes</a></li>
   </ul>
 </li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Feedback</a>
-    <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="feedback.php">Give feedback</a></li>
+
 
   </ul>
 </div>

@@ -9,6 +9,7 @@ CREATE TABLE Shop
 (BadgeID int(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 BadgeName VARCHAR(20) NOT NULL,
 Price INT(5) NOT NULL,
+Picture VARCHAR (200) NOT NULL,
 Rarity VARCHAR(15) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
@@ -67,6 +68,7 @@ UserID INT(5) NOT NULL,
 Result INT(5) NOT NULL,
 Complete INT(1) NOT NULL,
 Feedback VARCHAR(200) NOT NULL,
+FeedbackGiven INT(1) NOT NULL,
 CoinsGained INT(2) NOT NULL)");
 $stmt->execute();
 $stmt->closeCursor();
